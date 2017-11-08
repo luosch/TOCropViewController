@@ -223,6 +223,11 @@
 
 - (CGRect)frameForToolBarWithVerticalLayout:(BOOL)verticalLayout
 {
+    UIEdgeInsets insets = UIEdgeInsetsZero;
+    if (@available(iOS 11.0, *)) {
+        insets = self.view.safeAreaInsets;
+    }
+    
     CGRect frame = CGRectZero;
     if (!verticalLayout) {
         frame.origin.x = 0.0f;
@@ -234,9 +239,9 @@
         frame.origin.x = 0.0f;
         
         if (self.toolbarPosition == TOCropViewControllerToolbarPositionBottom) {
-            frame.origin.y = CGRectGetHeight(self.view.bounds) - 44.0f;
+            frame.origin.y = CGRectGetHeight(self.view.bounds) - 44.0f - insets.bottom;
         } else {
-            frame.origin.y = 0;
+            frame.origin.y = insets.top;
         }
         
         frame.size.width = CGRectGetWidth(self.view.bounds);
@@ -256,6 +261,13 @@
     //On an iPad, if being presented in a modal view controller by a UINavigationController,
     //at the time we need it, the size of our view will be incorrect.
     //If this is the case, derive our view size from our parent view controller instead
+    
+    UIEdgeInsets insets = UIEdgeInsetsZero;
+    if (@available(iOS 11.0, *)) {
+        insets = self.view.safeAreaInsets;
+        insets.top = 44.0;
+        insets.bottom = 34.0;
+    }
     
     CGRect bounds = CGRectZero;
     if (self.parentViewController == nil) {
@@ -280,9 +292,12 @@
         } else {
             frame.origin.y = 44.0f;
         }
-
+        
+        // TODO: only in iPhoneX portarit mode, need to fit in other mode
+        frame.origin.y = insets.top;
+        
         frame.size.width = CGRectGetWidth(bounds);
-        frame.size.height = CGRectGetHeight(bounds) - 44.0f;
+        frame.size.height = CGRectGetHeight(bounds) - 44.0 - insets.top - insets.bottom;
     }
     
     return frame;
