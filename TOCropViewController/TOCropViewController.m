@@ -226,6 +226,14 @@
     UIEdgeInsets insets = UIEdgeInsetsZero;
     if (@available(iOS 11.0, *)) {
         insets = self.view.safeAreaInsets;
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            CGFloat maxWidth = MAX([[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height);
+            if (fabs(maxWidth-812.0) <= 0.1) {
+                insets.top = 44.0;
+                insets.bottom = 34.0;
+            }
+        }
     }
     
     CGRect frame = CGRectZero;
@@ -265,8 +273,14 @@
     UIEdgeInsets insets = UIEdgeInsetsZero;
     if (@available(iOS 11.0, *)) {
         insets = self.view.safeAreaInsets;
-        insets.top = 44.0;
-        insets.bottom = 34.0;
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            CGFloat maxWidth = MAX([[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height);
+            if (fabs(maxWidth-812.0) <= 0.1) {
+                insets.top = 44.0;
+                insets.bottom = 34.0;
+            }
+        }
     }
     
     CGRect bounds = CGRectZero;
